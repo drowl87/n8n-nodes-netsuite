@@ -21,17 +21,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Node 24+ ships with npm 11.5.1+ which is required for OIDC trusted publishing
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      # Optional but recommended: ensure dist exists before publish
-      # Your prepublishOnly script already builds, but this gives clearer CI logs
       - name: Build (sanity check)
         run: npm run build
 
@@ -48,4 +47,4 @@ jobs:
           fi
 
       - name: Publish to npm (Trusted Publisher via OIDC)
-        run: npm publish --provenance --access public --registry https://registry.npmjs.org
+        run: npm publish --provenance --access public
