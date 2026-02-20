@@ -33,7 +33,7 @@ No test suite exists. The project has no test framework configured.
 ### Key Dependencies
 
 - `@drowl87/netsuite-rest-api-client` — OAuth 1.0 signed HTTP client for NetSuite REST API
-- `@common.js/p-limit` — Concurrency limiter for parallel request processing
+- `p-limit` (v3.x, CommonJS) — Concurrency limiter for parallel request processing. Must stay on v3 — v4+ is ESM-only and incompatible with n8n's CommonJS node loader.
 - `n8n-workflow` — Peer dependency providing n8n framework types (`INodeType`, `IExecuteFunctions`, etc.)
 
 ### Build Output
@@ -42,7 +42,7 @@ TypeScript compiles to `dist/`. Gulp copies `.png`/`.svg` icon files from source
 
 ### CI/CD
 
-GitHub Actions (`.github/workflows/deploy.yml`) publishes to npm on push to main when `package.json` changes, using `NPM_TOKEN` secret.
+GitHub Actions (`.github/workflows/deploy.yml`) publishes to npm on push to main when `package.json` changes, using OIDC trusted publishing (no long-lived npm token). The workflow uses Node 24 because npm OIDC support requires npm >= 11.5.1.
 
 ## Code Conventions
 

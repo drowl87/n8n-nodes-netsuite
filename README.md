@@ -8,11 +8,23 @@ This project has been forked to extend a few additional transaction types in Net
 
 The community project and its dependencies and versions is [available here on NPM](https://www.npmjs.com/package/@drowl87/n8n-nodes-netsuite).
 
+## Compatibility
+
+| n8n version | Package version |
+|-------------|-----------------|
+| v1.x        | <= 0.7.26       |
+| v2.x        | >= 0.7.27       |
+
+**v0.7.27** updated the package for n8n v2.0 compatibility. If you are running n8n v2.x, you must upgrade to v0.7.27 or later. Key changes:
+- Fixed a dependency bug (`@common.js/p-limit`) that caused the node to silently fail to load, resulting in `Unrecognized node type` errors
+- Updated to n8n v2 APIs (`NodeConnectionTypes`, removed deprecated `prepareOutputData`)
+- Requires Node.js >= 20
+
 ## How to install
 
 ### Community Nodes (Recommended)
 
-For users on n8n v0.187+, your instance owner can install this node from [Community Nodes](https://docs.n8n.io/integrations/community-nodes/installation/).
+Your instance owner can install this node from [Community Nodes](https://docs.n8n.io/integrations/community-nodes/installation/).
 
 1. Go to **Settings > Community Nodes**.
 2. Select **Install**.
