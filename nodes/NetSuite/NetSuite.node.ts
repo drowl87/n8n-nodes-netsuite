@@ -360,7 +360,6 @@ export class NetSuite implements INodeType {
 			requestData.query = ((requestData.query as Record<string, unknown>).query) as Record<string, string | number | boolean>;
 		}
 		
-		console.log('Final cleaned requestData:', JSON.stringify(requestData, null, 2));
 		const response = await makeRequest(getConfig(credentials), requestData);
 	
 		if (response.body) {
@@ -436,6 +435,6 @@ export class NetSuite implements INodeType {
 			}
 		}
 
-		return this.prepareOutputData(returnData);
+		return [returnData];
 	}
 }

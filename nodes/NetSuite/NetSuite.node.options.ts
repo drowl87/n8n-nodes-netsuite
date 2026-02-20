@@ -11,8 +11,8 @@ export const nodeDescription: INodeTypeDescription = {
 	description: "NetSuite REST API",
 	defaults: {
 		name: "NetSuite",
-		color: "#125580",
 	},
+	iconColor: "dark-blue",
 	icon: "file:netSuite.svg",
 	inputs: [NodeConnectionTypes.Main],
 	outputs: [NodeConnectionTypes.Main],
