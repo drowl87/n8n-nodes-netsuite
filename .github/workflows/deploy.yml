@@ -12,9 +12,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # Required for npm Trusted Publisher (OIDC)
     permissions:
       contents: read
-      id-token: write  # required for npm trusted publishing (OIDC)
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -25,9 +26,27 @@ jobs:
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Publish to npm (OIDC)
-        run: npm publish --provenance --access public
+      # Optional but recommended: ensure dist exists before publish
+      # Your prepublishOnly script already builds, but this gives clearer CI logs
+      - name: Build (sanity check)
+        run: npm run build
+
+      # Guardrail: fail fast if version already exists on npm
+      - name: Ensure version not already published
+        run: |
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if npm view "$PKG_NAME@$PKG_VERSION" version >/dev/null 2>&1; then
+            echo "Version already published: $PKG_NAME@$PKG_VERSION"
+            exit 1
+          else
+            echo "Version not yet published — proceeding."
+          fi
+
+      - name: Publish to npm (Trusted Publisher via OIDC)
+        run: npm publish --provenance
